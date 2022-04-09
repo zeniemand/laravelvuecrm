@@ -98,22 +98,10 @@
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Manager 1</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Manager 2</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Manager 3</p>
-                                </a>
+                                <router-link to="/users" class="nav-link">
+                                    <i class="fas fa-users nav-icon"></i>
+                                    <p>User</p>
+                                </router-link>
                             </li>
                         </ul>
                     </li>

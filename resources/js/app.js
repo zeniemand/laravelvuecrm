@@ -10,6 +10,7 @@ Vue.use(VueRouter);
 
 import Profile from "./components/Profile";
 import Dashboard from "./components/Dashboard";
+import Users from './components/Users';
 
 const routes = [
     {
@@ -19,6 +20,10 @@ const routes = [
     {
         path: '/dashboard',
         component: Dashboard
+    },
+    {
+        path: '/users',
+        component: Users
     }
 
 ];
