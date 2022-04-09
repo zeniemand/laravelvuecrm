@@ -140,9 +140,7 @@
     <div class="content-wrapper">
         <div class="content">
             <div class="container-fluid">
-                <h1>Here main content</h1>
                 <router-view></router-view>
-
             </div>
         </div>
    </div>
