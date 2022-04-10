@@ -59,25 +59,30 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <div class="modal-body">
-                        <form @submit.prevent="login" @keydown="form.onKeydown($event)">
-                            <AlertError :form="form" />
+                        <form @submit.prevent="createUser" @keydown="form.onKeydown($event)">
+                        <div class="modal-body">
+                        </div>
+
+                            <AlertError :form="form"/>
                             <!-- <AlertErrors :form="form" /> -->
                             <!-- <AlertSuccess :form="form" message="Your changes have beend saved!" /> -->
 
                             <div class="mb-3">
-                                <input id="name" v-model="form.name" type="text" name="name" class="form-control" placeholder="Name">
-                                <HasError :form="form" field="name" />
+                                <input id="name" v-model="form.name" type="text" name="name" class="form-control"
+                                       placeholder="Name">
+                                <HasError :form="form" field="name"/>
                             </div>
 
                             <div class="mb-3">
-                                <input id="email" v-model="form.email" type="text" name="email" class="form-control" placeholder="Email Address">
-                                <HasError :form="form" field="email" />
+                                <input id="email" v-model="form.email" type="text" name="email" class="form-control"
+                                       placeholder="Email Address">
+                                <HasError :form="form" field="email"/>
                             </div>
 
                             <div class="mb-3">
-                                <textarea id="bio" v-model="form.bio" type="text" name="bio" class="form-control" placeholder="Short bio for user (Optional)"></textarea>
-                                <HasError :form="form" field="bio" />
+                                    <textarea id="bio" v-model="form.bio" type="text" name="bio" class="form-control"
+                                              placeholder="Short bio for user (Optional)"></textarea>
+                                <HasError :form="form" field="bio"/>
                             </div>
 
                             <div class="mb-3">
@@ -87,19 +92,19 @@
                                     <option value="user">Standard User</option>
                                     <option value="author">Author</option>
                                 </select>
-                                <HasError :form="form" field="type" />
+                                <HasError :form="form" field="type"/>
                             </div>
 
                             <div class="mb-3">
-                                <input id="password" v-model="form.password" type="password" name="password" class="form-control" placeholder="Password">
-                                <HasError :form="form" field="password" />
+                                <input id="password" v-model="form.password" type="password" name="password"
+                                       class="form-control" placeholder="Password">
+                                <HasError :form="form" field="password"/>
                             </div>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Create</button>
-                    </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Create</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -121,6 +126,11 @@ export default {
             })
         }
     },
-    name: "Users"
+    name: "Users",
+    methods: {
+        async createUser(){
+            await this.form.post('/api/user');
+        }
+    }
 }
 </script>
