@@ -59,7 +59,7 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                        <form @submit.prevent="createUser" @keydown="form.onKeydown($event)">
+                        <form @submit.prevent="createUser" @keydown="form.onKeydown($event)" class="mx-3">
                         <div class="modal-body">
                         </div>
 
