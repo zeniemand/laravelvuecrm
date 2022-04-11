@@ -13,6 +13,7 @@ import {
     AlertErrors,
     AlertSuccess
 } from 'vform/src/components/bootstrap5';
+import moment from 'moment';
 
 window.Form = Form;
 Vue.component(Button.name, Button);
@@ -49,6 +50,9 @@ const router = new VueRouter(
         routes
     }
 );
+
+Vue.filter('upText', text => text.charAt(0).toUpperCase() + text.slice(1) );
+Vue.filter('myDate', created => moment(created).format('MMMM Do YYYY') );
 
 const app = new Vue({
     el: '#app',
