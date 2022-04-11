@@ -135,6 +135,7 @@ export default {
             axios.get('/api/user').then(response => this.users = response.data.data);
         },
         async createUser(){
+            this.$Progress.start();
             await this.form.post('/api/user');
         }
     },

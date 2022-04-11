@@ -14,6 +14,7 @@ import {
     AlertSuccess
 } from 'vform/src/components/bootstrap5';
 import moment from 'moment';
+import VueProgressBar from 'vue-progressbar';
 
 window.Form = Form;
 Vue.component(Button.name, Button);
@@ -23,6 +24,11 @@ Vue.component(AlertErrors.name, AlertErrors);
 Vue.component(AlertSuccess.name, AlertSuccess);
 
 Vue.use(VueRouter);
+Vue.use(VueProgressBar, {
+    color: 'rgb(143, 255, 199)',
+    failedColor: 'red',
+    height: '2px'
+});
 
 import Profile from "./components/Profile";
 import Dashboard from "./components/Dashboard";
