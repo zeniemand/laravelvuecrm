@@ -162,6 +162,7 @@ export default {
             });
 
             this.modal.hide();
+            Fire.$emit('AfterCreate');
             this.$Progress.finish();
         }
     },
@@ -170,6 +171,7 @@ export default {
     },
     mounted() {
         this.modal = new bootstrap.Modal(this.$refs.addNew);
+        Fire.$on('AfterCreate', () => this.loadUsers())
     }
 }
 </script>

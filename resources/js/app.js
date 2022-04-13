@@ -77,6 +77,8 @@ const router = new VueRouter(
 Vue.filter('upText', text => text.charAt(0).toUpperCase() + text.slice(1) );
 Vue.filter('myDate', created => moment(created).format('MMMM Do YYYY') );
 
+window.Fire = new Vue();
+
 const app = new Vue({
     el: '#app',
     router
