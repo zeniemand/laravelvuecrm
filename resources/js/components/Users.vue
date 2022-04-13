@@ -142,28 +142,32 @@ export default {
         async createUser() {
 
             this.$Progress.start();
-            await this.form.post('/api/user');
+            await this.form.post('/api/user')
+            .then(() => {
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                    }
+                });
 
-            const Toast = Swal.mixin({
-                toast: true,
-                position: 'top-end',
-                showConfirmButton: false,
-                timer: 3000,
-                timerProgressBar: true,
-                didOpen: (toast) => {
-                    toast.addEventListener('mouseenter', Swal.stopTimer)
-                    toast.addEventListener('mouseleave', Swal.resumeTimer)
-                }
+                Toast.fire({
+                    icon: 'success',
+                    title: 'Signed in successfully'
+                });
+
+                this.modal.hide();
+                Fire.$emit('AfterCreate');
+                this.$Progress.finish();
+            })
+            .catch(() => {
+
             });
-
-            await Toast.fire({
-                icon: 'success',
-                title: 'Signed in successfully'
-            });
-
-            this.modal.hide();
-            Fire.$emit('AfterCreate');
-            this.$Progress.finish();
         }
     },
     created() {
