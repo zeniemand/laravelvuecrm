@@ -7,7 +7,7 @@
                     <div class="card-header">
                         <h3 class="card-title">Users Table</h3>
                         <div class="card-tools">
-                            <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addNew">
+                            <button class="btn btn-success"  @click="modal.show()">
                                 Add New <i class="fas fa-user-plus"></i>
                             </button>
                         </div>
@@ -52,7 +52,7 @@
         </div>
 
         <!-- Modal -->
-        <div class="modal fade" id="addNew" tabindex="-1" aria-labelledby="addNewLabel" aria-hidden="true">
+            <div class="modal fade" ref="addNew" tabindex="-1" aria-labelledby="addNewLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -115,6 +115,7 @@
 </template>
 
 <script>
+
 export default {
     data(){
         return {
@@ -126,21 +127,49 @@ export default {
                 type: '',
                 bio: '',
                 photo: ''
-            })
+            }),
+            modal: null
         }
     },
     name: "Users",
     methods: {
+        showModalwin(){
+            this.showModal = true;
+        },
         loadUsers() {
             axios.get('/api/user').then(response => this.users = response.data.data);
         },
-        async createUser(){
+        async createUser() {
+
             this.$Progress.start();
             await this.form.post('/api/user');
+
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+            });
+
+            await Toast.fire({
+                icon: 'success',
+                title: 'Signed in successfully'
+            });
+
+            this.modal.hide();
+            this.$Progress.finish();
         }
     },
     created() {
         this.loadUsers();
+    },
+    mounted() {
+        this.modal = new bootstrap.Modal(this.$refs.addNew);
     }
 }
 </script>
