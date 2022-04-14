@@ -124,6 +124,7 @@ export default {
             editMode: true,
             users: {},
             form: new Form({
+                id: '',
                 name: '',
                 email: '',
                 password: '',
@@ -138,6 +139,20 @@ export default {
     methods: {
         updateUser() {
             console.log('editing data!!')
+            this.$Progress.start();
+
+            this.form.put('api/user/' + this.form.id).then(response => {
+                this.modal.hide();
+                Swal.fire(
+                    'Updated!',
+                    `User ${response.data.name} has been updated.`,
+                    'success'
+                );
+                Fire.$emit('AfterCreate');
+                this.$Progress.finish();
+            }).catch(() => {
+                this.$Progress.fail();
+            });
         },
         deleteUser(id, name) {
             Swal.fire({
@@ -153,7 +168,7 @@ export default {
                     this.form.delete('api/user/' + id).then(() => {
                         Swal.fire(
                             'Deleted!',
-                            'Your file has been deleted.',
+                            'Record has been deleted.',
                             'success'
                         );
                         Fire.$emit('AfterCreate');
@@ -206,7 +221,7 @@ export default {
                 this.$Progress.finish();
             })
             .catch(() => {
-
+                this.$Progress.fail();
             });
         }
     },
