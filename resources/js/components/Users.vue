@@ -7,7 +7,7 @@
                     <div class="card-header">
                         <h3 class="card-title">Users Table</h3>
                         <div class="card-tools">
-                            <button class="btn btn-success"  @click="modal.show()">
+                            <button class="btn btn-success"  @click="showModalwin">
                                 Add New <i class="fas fa-user-plus"></i>
                             </button>
                         </div>
@@ -33,7 +33,7 @@
                                 <td>{{ user.type | upText }}</td>
                                 <td>{{ user.created_at | myDate }}</td>
                                 <td>
-                                    <a href="#">
+                                    <a href="#" @click="editModalwin(user)">
                                         <i class="fa fa-edit blue"></i>
                                     </a>
                                     /
@@ -56,12 +56,13 @@
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="addNewLabel">Add New</h5>
+                        <h5  class="modal-title" v-show="!editMode" id="addNewLabel">Add New</h5>
+                        <h5  class="modal-title" v-show="editMode" id="addNewLabel">Update users Info</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                        <form @submit.prevent="createUser" @keydown="form.onKeydown($event)" class="mx-3">
+                        <form @submit.prevent="editMode ? updateUser() : createUser()" @keydown="form.onKeydown($event)" class="mx-3">
                         <div class="modal-body">
                         </div>
 
@@ -104,7 +105,8 @@
                             </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Create</button>
+                            <button v-show="editMode" type="submit" class="btn btn-success">Update</button>
+                            <button v-show="!editMode" type="submit" class="btn btn-primary">Create</button>
                         </div>
                     </form>
                 </div>
@@ -119,6 +121,7 @@
 export default {
     data(){
         return {
+            editMode: true,
             users: {},
             form: new Form({
                 name: '',
@@ -133,6 +136,9 @@ export default {
     },
     name: "Users",
     methods: {
+        updateUser() {
+            console.log('editing data!!')
+        },
         deleteUser(id, name) {
             Swal.fire({
                 title: `Are you sure to delete user: ${name} ?`,
@@ -160,7 +166,15 @@ export default {
             })
         },
         showModalwin(){
-            this.showModal = true;
+            this.editMode = false;
+            this.form.reset();
+            this.modal.show();
+        },
+        editModalwin(user){
+            this.editMode = true;
+            this.form.reset();
+            this.modal.show();
+            this.form.fill(user);
         },
         loadUsers() {
             axios.get('/api/user').then(response => this.users = response.data.data);
