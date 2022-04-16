@@ -180,19 +180,13 @@
                                     <div class="form-group row">
                                         <label for="inputName" class="col-sm-2 col-form-label">Name</label>
                                         <div class="col-sm-10">
-                                            <input type="email" class="form-control" id="inputName" placeholder="Name">
+                                            <input type="email" v-model="form.name" class="form-control" id="inputName" placeholder="Name">
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
                                         <div class="col-sm-10">
-                                            <input type="email" class="form-control" id="inputEmail" placeholder="Email">
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label for="inputName2" class="col-sm-2 col-form-label">Name</label>
-                                        <div class="col-sm-10">
-                                            <input type="text" class="form-control" id="inputName2" placeholder="Name">
+                                            <input type="email" v-model="form.email" class="form-control" id="inputEmail" placeholder="Email">
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -241,6 +235,23 @@
 
 <script>
 export default {
+    data(){
+        return{
+            form: new Form({
+                id: '',
+                name: '',
+                email: '',
+                password: '',
+                type: '',
+                bio: '',
+                photo: ''
+            }),
+        }
+    },
+    created() {
+        axios.get('api/profile')
+            .then(({data}) => this.form.fill(data));
+    },
     name: "Profile"
 }
 </script>

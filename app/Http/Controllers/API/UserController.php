@@ -55,6 +55,16 @@ class UserController extends Controller
     }
 
     /**
+     * Get data of the current authenticated user
+     *
+     * @return \Illuminate\Contracts\Auth\Authenticatable|null
+     */
+    public function profile()
+    {
+        return auth('api')->user();
+    }
+
+    /**
      * Display the specified resource.
      *
      * @param  int  $id
