@@ -250,14 +250,29 @@ export default {
     },
     methods: {
         updateInfo() {
-            this.form.put('api/profile').then(result => console.log('otvet:: ',result.data.data)).catch();
+            this.$Progress.start();
+            this.form.put('api/profile').then(result => {
+                console.log('get data:: ', result.data.data);
+                this.$Progress.finish();
+            })
+                .catch(() => {
+                    this.$Progress.fail();
+                });
         },
         updateProfile(e){
             let file = e.target.files[0];
-            console.log('file:: =>', file)
             let reader = new FileReader();
-            reader.onloadend = () => this.form.photo = reader.result;
-            reader.readAsDataURL(file);
+            if (file['size'] <= 2097152) {
+                reader.onloadend = () => this.form.photo = reader.result;
+                reader.readAsDataURL(file);
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops..',
+                    text: 'Uploaded file has to large size!!'
+                    });
+            }
+
         }
     },
     created() {
