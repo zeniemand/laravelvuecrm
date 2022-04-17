@@ -197,9 +197,9 @@
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label for="inputSkills" class="col-sm-2 col-form-label">Skills</label>
+                                        <label for="photo" class="col-sm-2 col-form-label">Profile Photo</label>
                                         <div class="col-sm-10">
-                                            <input type="text" class="form-control" id="inputSkills" placeholder="Skills">
+                                            <input type="file" @change="updateProfile" name="photo" class="form-control" id="photo">
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -213,7 +213,7 @@
                                     </div>
                                     <div class="form-group row">
                                         <div class="offset-sm-2 col-sm-10">
-                                            <button type="submit" class="btn btn-danger">Submit</button>
+                                            <button @click.prevent="updateInfo" type="submit" class="btn btn-success">Update</button>
                                         </div>
                                     </div>
                                 </form>
@@ -246,6 +246,18 @@ export default {
                 bio: '',
                 photo: ''
             }),
+        }
+    },
+    methods: {
+        updateInfo() {
+            this.form.put('api/profile').then(result => console.log('otvet:: ',result.data.data)).catch();
+        },
+        updateProfile(e){
+            let file = e.target.files[0];
+            console.log('file:: =>', file)
+            let reader = new FileReader();
+            reader.onloadend = () => this.form.photo = reader.result;
+            reader.readAsDataURL(file);
         }
     },
     created() {

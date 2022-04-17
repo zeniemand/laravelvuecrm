@@ -6,9 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Intervention\Image\Facades\Image;
 
 class UserController extends Controller
 {
+    private const path_image_profile = 'img/profile/';
 
     /**
      * Create a new controller instance.
@@ -53,6 +55,30 @@ class UserController extends Controller
             'password' => Hash::make($request['password']),
         ]);
     }
+
+    public function updateProfile(Request $request)
+    {
+        $user = auth('api')->user();
+
+        if ($request->photo) {
+            if($this->uploadImage($request->photo, self::path_image_profile)) return ['message' => 'picture uploaded'];
+        }
+
+        return ['error ' => 'could not upload image' ];
+    }
+
+    /**
+     * @param $image_string_name
+     * @param $image_path
+     * @return \Intervention\Image\Image
+     */
+    protected function uploadImage($image_string_name,$image_path)
+    {
+        $name = time() . '.' . explode('/', explode(':', substr($image_string_name, 0, strpos($image_string_name, ';')))[1])[1];
+
+        return Image::make($image_string_name)->save(public_path($image_path).$name);
+    }
+
 
     /**
      * Get data of the current authenticated user

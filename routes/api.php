@@ -27,3 +27,6 @@ Route::get('profile',[
     UserController::class, 'profile'
 ]);
 
+Route::put('profile', [
+    UserController::class, 'updateProfile'
+]);
