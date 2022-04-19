@@ -60,23 +60,65 @@ class UserController extends Controller
     {
         $user = auth('api')->user();
 
-        if ($request->photo) {
-            if($this->uploadImage($request->photo, self::path_image_profile)) return ['message' => 'picture uploaded'];
+        $this->validate($request, [
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|max:255|unique:users,email,'.$user->id,
+            'password' => 'sometimes|exclude_if:password,null|min:8'
+        ]);
+
+        $currentPhoto = $user->photo;
+        if ($request->photo != $currentPhoto) {
+            $imageName = $this->getNewImageName($request->photo);
+            if(!$this->uploadImage($imageName, $request->photo, self::path_image_profile)) return ['error ' => 'could not upload image' ];
+            $request->merge(['photo' => $imageName]);
         }
 
-        return ['error ' => 'could not upload image' ];
+        $request = $this->passwordRequestUpdateCheck($request, $user);
+
+        $user->update($request->all());
+        return ['message ' => 'Success' ];
     }
 
     /**
+     * @param Request $request
+     * @param User $user
+     * @return Request
+     */
+    protected function passwordRequestUpdateCheck(Request $request, User $user)
+    {
+        if(!empty($request->password)){
+            $request->merge([
+                'password' => Hash::make($request['password'])
+            ]);
+        }
+
+        if($request->password === null){
+            $request->merge([
+                'password' => $user->password
+            ]);
+        }
+
+        return $request;
+    }
+
+    /**
+     * @param $imageName
      * @param $image_string_name
      * @param $image_path
      * @return \Intervention\Image\Image
      */
-    protected function uploadImage($image_string_name,$image_path)
+    protected function uploadImage($imageName, $image_string_name,$image_path)
     {
-        $name = time() . '.' . explode('/', explode(':', substr($image_string_name, 0, strpos($image_string_name, ';')))[1])[1];
+        return Image::make($image_string_name)->save(public_path($image_path).$imageName);
+    }
 
-        return Image::make($image_string_name)->save(public_path($image_path).$name);
+    /**
+     * @param $image_string_name
+     * @return string
+     */
+    protected function getNewImageName($image_string_name)
+    {
+        return time() . '.' . explode('/', explode(':', substr($image_string_name, 0, strpos($image_string_name, ';')))[1])[1];
     }
 
 

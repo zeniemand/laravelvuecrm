@@ -180,20 +180,23 @@
                                     <div class="form-group row">
                                         <label for="inputName" class="col-sm-2 col-form-label">Name</label>
                                         <div class="col-sm-10">
-                                            <input type="email" v-model="form.name" class="form-control" id="inputName" placeholder="Name">
+                                            <input type="text" v-model="form.name" class="form-control" id="inputName" placeholder="Name">
+                                            <HasError :form="form" field="name"/>
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
                                         <div class="col-sm-10">
                                             <input type="email" v-model="form.email" class="form-control" id="inputEmail" placeholder="Email">
+                                            <HasError :form="form" field="email"/>
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label for="inputExperience" class="col-sm-2 col-form-label">Experience</label>
+                                        <label for="inputExperience" class="col-sm-2 col-form-label">Biography</label>
                                         <div class="col-sm-10">
-                                    <textarea class="form-control" id="inputExperience"
-                                              placeholder="Experience"></textarea>
+                                    <textarea class="form-control" id="bio" type="text" v-model="form.bio" name="bio"
+                                              placeholder="Biography"></textarea>
+                                            <HasError :form="form" field="bio"/>
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -209,6 +212,13 @@
                                                     <input type="checkbox"> I agree to the <a href="#">terms and conditions</a>
                                                 </label>
                                             </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="inputName" class="col-sm-2 col-form-label">Password</label>
+                                        <div class="col-sm-10">
+                                            <input type="password" v-model="form.password" class="form-control" id="password"  :class="{ 'is-invalid': form.errors.has('password') }">
+                                            <HasError :form="form" field="password"/>
                                         </div>
                                     </div>
                                     <div class="form-group row">
