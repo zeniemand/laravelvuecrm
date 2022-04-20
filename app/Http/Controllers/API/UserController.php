@@ -66,15 +66,8 @@ class UserController extends Controller
             'password' => 'sometimes|exclude_if:password,null|min:8'
         ]);
 
-        $currentPhoto = $user->photo;
-        if ($request->photo != $currentPhoto) {
-            $imageName = $this->getNewImageName($request->photo);
-            if(!$this->uploadImage($imageName, $request->photo, self::path_image_profile)) return ['error ' => 'could not upload image' ];
-            $request->merge(['photo' => $imageName]);
-        }
-
+        $request = $this->photoUpdate($request, $user);
         $request = $this->passwordRequestUpdateCheck($request, $user);
-
         $user->update($request->all());
         return ['message ' => 'Success' ];
     }
@@ -102,12 +95,34 @@ class UserController extends Controller
     }
 
     /**
+     * @param Request $request
+     * @param User $user
+     * @return Request|string[]
+     */
+    private function photoUpdate(Request $request, User $user)
+    {
+        $currentPhoto = $user->photo;
+        if ($request->photo != $currentPhoto) {
+            $imageName = $this->getNewImageName($request->photo);
+            if(!$this->uploadImage($imageName, $request->photo, self::path_image_profile)) return ['error ' => 'could not upload image' ];
+
+            $request->merge(['photo' => $imageName]);
+
+            $userPhoto = public_path(self::path_image_profile).$currentPhoto;
+            if (file_exists($userPhoto)) {
+                @unlink($userPhoto);
+            }
+        }
+        return $request;
+    }
+
+    /**
      * @param $imageName
      * @param $image_string_name
      * @param $image_path
      * @return \Intervention\Image\Image
      */
-    protected function uploadImage($imageName, $image_string_name,$image_path)
+    protected function uploadImage($imageName, $image_string_name, $image_path)
     {
         return Image::make($image_string_name)->save(public_path($image_path).$imageName);
     }
