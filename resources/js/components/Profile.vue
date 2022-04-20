@@ -20,7 +20,7 @@
                         <h5 class="widget-user-desc text-right">Web Designer</h5>
                     </div>
                     <div class="widget-user-image">
-                        <img class="img-circle" src="" alt="User Avatar">
+                        <img class="img-circle" :src="getProfilePhoto()" alt="User Avatar">
                     </div>
                     <div class="card-footer">
                         <div class="row">
@@ -256,13 +256,27 @@ export default {
                 bio: '',
                 photo: ''
             }),
+            imagePath: "img/profile/",
+            photo: '',
+
         }
     },
     methods: {
+        getProfilePhoto() {
+            return this.imagePath + this.photo;
+        },
+        loadProfile() {
+            axios.get('api/profile')
+                .then(({data}) => {
+                    this.form.fill(data);
+                    this.photo = this.form.photo;
+                });
+        },
         updateInfo() {
             this.$Progress.start();
             this.form.put('api/profile').then(result => {
-                console.log('get data:: ', result.data.data);
+                this.$forceUpdate();
+                Fire.$emit('loadProfile');
                 this.$Progress.finish();
             })
                 .catch(() => {
@@ -286,8 +300,8 @@ export default {
         }
     },
     created() {
-        axios.get('api/profile')
-            .then(({data}) => this.form.fill(data));
+        this.loadProfile();
+        Fire.$on('loadProfile', () => this.loadProfile());
     },
     name: "Profile"
 }
