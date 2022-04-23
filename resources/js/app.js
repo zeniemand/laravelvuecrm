@@ -2,6 +2,8 @@ window.Popper = require('popper.js');
 require('./bootstrap');
 window.bootstrap = require('bootstrap');
 
+
+
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Form from 'vform';
@@ -29,6 +31,10 @@ const Toast = Swal.mixin({
         toast.addEventListener('mouseleave', Swal.resumeTimer)
     }
 })
+
+import Gate from './Gate';
+Vue.prototype.$gate = new Gate(window.user);
+
 
 window.Toast = Toast;
 

@@ -1,7 +1,7 @@
 <template xmlns="http://www.w3.org/1999/html">
-    <div class="container">
+    <div class="container" v-show="$gate.isAdmin()">
 
-        <div class="row mt-5">
+        <div class="row mt-5" >
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
@@ -173,8 +173,10 @@ export default {
                         );
                         Fire.$emit('AfterCreate');
                     }).catch(error => {
-                        Swal.showValidationMessage(
-                            `Request failed: ${error}`
+                        Swal.fire(
+                            'Ooops!',
+                            'Record could not be deleted.',
+                            'error'
                         );
                     });
                 }
@@ -192,7 +194,10 @@ export default {
             this.form.fill(user);
         },
         loadUsers() {
-            axios.get('/api/user').then(response => this.users = response.data.data);
+            if(this.$gate.isAdmin()){
+                axios.get('/api/user').then(response => this.users = response.data.data);
+            }
+
         },
         async createUser() {
 
@@ -229,7 +234,7 @@ export default {
         this.loadUsers();
     },
     mounted() {
-        this.modal = new bootstrap.Modal(this.$refs.addNew);
+        this.modal = (this.$gate.isAdmin()) ? new bootstrap.Modal(this.$refs.addNew) : null;
         Fire.$on('AfterCreate', () => this.loadUsers())
     }
 }
