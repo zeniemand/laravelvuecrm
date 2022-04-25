@@ -46,6 +46,10 @@ Vue.component(AlertError.name, AlertError);
 Vue.component(AlertErrors.name, AlertErrors);
 Vue.component(AlertSuccess.name, AlertSuccess);
 
+
+import NotFound from "./components/NotFound";
+Vue.component('not-found', NotFound);
+
 Vue.use(VueRouter);
 Vue.use(VueProgressBar, {
     color: 'rgb(143, 255, 199)',
@@ -56,6 +60,7 @@ Vue.use(VueProgressBar, {
 import Profile from "./components/Profile";
 import Dashboard from "./components/Dashboard";
 import Users from './components/Users';
+import Developer from './components/Developer';
 
 const routes = [
     {
@@ -69,6 +74,10 @@ const routes = [
     {
         path: '/users',
         component: Users
+    },
+    {
+        path: '/developer',
+        component: Developer
     }
 
 ];

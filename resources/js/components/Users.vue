@@ -1,7 +1,7 @@
 <template xmlns="http://www.w3.org/1999/html">
-    <div class="container" v-show="$gate.isAdmin()">
+    <div class="container">
 
-        <div class="row mt-5" >
+        <div class="row mt-5" v-show="$gate.isAdmin()">
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
@@ -49,6 +49,10 @@
                 </div>
 
             </div>
+        </div>
+
+        <div v-show="!$gate.isAdmin()">
+            <not-found />
         </div>
 
         <!-- Modal -->

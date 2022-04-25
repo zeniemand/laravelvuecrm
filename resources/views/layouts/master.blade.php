@@ -61,8 +61,12 @@
                     <img src="./img/profile.png" class="img-circle elevation-2" alt="User Image">
                 </div>
                 <div class="info">
-                    <a href="#" class="d-block">{{ Auth::user()->name }}</a>
+                    <a href="#" class="d-block">
+                        {{ Auth::user()->name }}
+                        <p>User type: {{ Auth::user()->type }}</p>
+                    </a>
                 </div>
+
             </div>
 
             <div class="form-inline">
