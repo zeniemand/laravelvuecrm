@@ -1,7 +1,7 @@
 <template xmlns="http://www.w3.org/1999/html">
     <div class="container">
 
-        <div class="row mt-5" v-show="$gate.isAdmin()">
+        <div class="row mt-5" v-show="$gate.isAdminOrAuthor()">
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
@@ -51,7 +51,7 @@
             </div>
         </div>
 
-        <div v-show="!$gate.isAdmin()">
+        <div v-show="!$gate.isAdminOrAuthor()">
             <not-found />
         </div>
 
@@ -198,7 +198,7 @@ export default {
             this.form.fill(user);
         },
         loadUsers() {
-            if(this.$gate.isAdmin()){
+            if(this.$gate.isAdminOrAuthor()){
                 axios.get('/api/user').then(response => this.users = response.data.data);
             }
 
@@ -238,7 +238,7 @@ export default {
         this.loadUsers();
     },
     mounted() {
-        this.modal = (this.$gate.isAdmin()) ? new bootstrap.Modal(this.$refs.addNew) : null;
+        this.modal = (this.$gate.isAdminOrAuthor()) ? new bootstrap.Modal(this.$refs.addNew) : null;
         Fire.$on('AfterCreate', () => this.loadUsers())
     }
 }
