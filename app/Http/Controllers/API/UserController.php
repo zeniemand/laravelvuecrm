@@ -31,7 +31,7 @@ class UserController extends Controller
     public function index()
     {
         if(Gate::allows('isAdmin') || Gate::allows('isAuthor')){
-            return User::latest()->paginate(20);
+            return User::latest()->paginate(3);
         }
     }
 

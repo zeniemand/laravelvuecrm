@@ -50,6 +50,9 @@ Vue.component(AlertSuccess.name, AlertSuccess);
 import NotFound from "./components/NotFound";
 Vue.component('not-found', NotFound);
 
+import LaravelVuePagination from 'laravel-vue-pagination';
+Vue.component('pagination',LaravelVuePagination);
+
 Vue.use(VueRouter);
 Vue.use(VueProgressBar, {
     color: 'rgb(143, 255, 199)',
