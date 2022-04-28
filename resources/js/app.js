@@ -81,6 +81,10 @@ const routes = [
     {
         path: '/developer',
         component: Developer
+    },
+    {
+        path: '*',
+        component: NotFound
     }
 
 ];
