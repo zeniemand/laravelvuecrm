@@ -12,6 +12,7 @@ use Intervention\Image\Facades\Image;
 class UserController extends Controller
 {
     private const path_image_profile = 'img/profile/';
+    private const entries = 3;
 
     /**
      * Create a new controller instance.
@@ -30,8 +31,13 @@ class UserController extends Controller
      */
     public function index()
     {
+        return $this->getUsers();
+    }
+
+    private function getUsers()
+    {
         if(Gate::allows('isAdmin') || Gate::allows('isAuthor')){
-            return User::latest()->paginate(3);
+            return User::latest()->paginate(self::entries);
         }
     }
 
@@ -199,5 +205,17 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         $user->delete();
         return ['message' => 'User deleted'];
+    }
+
+    public function search(Request $request)
+    {
+        if ($search = $request->get('q')) {
+            return User::where(function($query) use ($search){
+                $query->where('name', 'LIKE', "%$search%")
+                    ->orWhere('email', 'LIKE', "%$search%")
+                    ->orWhere('type', 'LIKE', "%$search%");
+            })->paginate(self::entries);
+        }
+        return $this->getUsers();
     }
 }

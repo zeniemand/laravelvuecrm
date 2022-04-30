@@ -242,14 +242,27 @@ export default {
             .catch(() => {
                 this.$Progress.fail();
             });
-        }
+        },
+        searching() {
+            axios.get('api/findUser?q=' + this.$parent.search)
+                .then(data => {
+                    this.users = data.data
+                })
+                .catch(error => {
+                    console.log(error.message)
+                });
+        },
     },
     created() {
+        Fire.$on('searching', () => {
+            this.searching();
+
+       });
         this.loadUsers();
+        Fire.$on('AfterCreate', () => this.loadUsers());
     },
     mounted() {
         this.modal = (this.$gate.isAdminOrAuthor()) ? new bootstrap.Modal(this.$refs.addNew) : null;
-        Fire.$on('AfterCreate', () => this.loadUsers())
     }
 }
 </script>

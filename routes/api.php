@@ -27,6 +27,10 @@ Route::get('profile',[
     UserController::class, 'profile'
 ]);
 
+Route::get('findUser',[
+    UserController::class, 'search'
+]);
+
 Route::put('profile', [
     UserController::class, 'updateProfile'
 ]);

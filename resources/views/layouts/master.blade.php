@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>AdminLTE 3 | Dashboard 3</title>
+    <title>LaravelVue crm</title>
 
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 
@@ -28,11 +28,10 @@
                     <i class="fas fa-search"></i>
                 </a>
                 <div class="navbar-search-block">
-                    <form class="form-inline">
                         <div class="input-group input-group-sm">
-                            <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
+                            <input class="form-control form-control-navbar"  @keyup="searchit" v-model="search" type="search" placeholder="Search" aria-label="Search">
                             <div class="input-group-append">
-                                <button class="btn btn-navbar" type="submit">
+                                <button class="btn btn-navbar" @click="searchit">
                                     <i class="fas fa-search"></i>
                                 </button>
                                 <button class="btn btn-navbar" type="button" data-widget="navbar-search">
@@ -40,7 +39,6 @@
                                 </button>
                             </div>
                         </div>
-                    </form>
                 </div>
             </li>
         </ul>
