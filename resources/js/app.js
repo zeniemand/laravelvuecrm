@@ -64,6 +64,7 @@ import Profile from "./components/Profile";
 import Dashboard from "./components/Dashboard";
 import Users from './components/Users';
 import Developer from './components/Developer';
+import Invoice from './components/Invoice';
 
 const routes = [
     {
@@ -81,6 +82,10 @@ const routes = [
     {
         path: '/developer',
         component: Developer
+    },
+    {
+        path: '/invoice',
+        component: Invoice
     },
     {
         path: '*',
@@ -110,6 +115,10 @@ const app = new Vue({
     methods: {
         searchit: _.debounce(() => {
             Fire.$emit('searching');
-        }, 1000)
+        }, 1000),
+        printInvoice() {
+            console.log('printed');
+            window.print();
+        },
     }
 });

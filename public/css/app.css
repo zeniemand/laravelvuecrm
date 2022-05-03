@@ -70446,3 +70446,7 @@ readers do not read off random characters that represent icons */
   background-color: #2c19b3 !important;
   color: white !important;
 }
+
+@page {
+  margin: 0;
+}

@@ -128,6 +128,18 @@
                         </router-link>
                     </li>
 
+                    @can('isAdmin')
+                        <li class="nav-item">
+                            <router-link to="/invoice" class="nav-link">
+                                <i class="nav-icon fas fa-file-invoice-dollar teal"></i>
+                                <p>
+                                    Invoice
+                                </p>
+                            </router-link>
+                        </li>
+                    @endcan
+
+
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('logout') }}"
                            onclick="event.preventDefault();
